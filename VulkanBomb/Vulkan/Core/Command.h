@@ -1,0 +1,13 @@
+//
+// Created by c1337 on 3/10/26.
+//
+
+#ifndef IMGUI_EXAMPLE_GLFW_VULKAN_COMMAND_H
+#define IMGUI_EXAMPLE_GLFW_VULKAN_COMMAND_H
+
+
+class Command {
+};
+
+
+#endif //IMGUI_EXAMPLE_GLFW_VULKAN_COMMAND_H

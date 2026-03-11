@@ -1,0 +1,13 @@
+//
+// Created by c1337 on 3/10/26.
+//
+
+#ifndef IMGUI_EXAMPLE_GLFW_VULKAN_BUFFER_H
+#define IMGUI_EXAMPLE_GLFW_VULKAN_BUFFER_H
+
+
+class Buffer {
+};
+
+
+#endif //IMGUI_EXAMPLE_GLFW_VULKAN_BUFFER_H
