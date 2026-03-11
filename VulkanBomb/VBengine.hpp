@@ -7,8 +7,8 @@
 
 class VBengine {
 private:
-    static std::string _programName;
-    static int _width, _height;
+    std::string _programName;
+    int _width, _height;
 
     GLFWwindow* _window;
 
@@ -24,8 +24,8 @@ public:
     void Cleanup();
 
     GLFWwindow* GetWindow() const { return _window; }
-    static int GetWidth() { return _width; }
-    static int GetHeight() { return _height; }
+    int GetWidth() { return _width; }
+    int GetHeight() { return _height; }
 };
 
 #endif

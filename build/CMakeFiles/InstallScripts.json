@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/mnt/1337/Projects/example_glfw_vulkan/build/cmake_install.cmake",
-		"/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/cmake_install.cmake",
-		"/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/src/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

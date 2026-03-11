@@ -1,9 +1,0 @@
-/mnt/1337/Projects/example_glfw_vulkan/build/CMakeFiles/example_glfw_vulkan.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/CMakeFiles/edit_cache.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/CMakeFiles/rebuild_cache.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/CMakeFiles/edit_cache.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/CMakeFiles/rebuild_cache.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/src/CMakeFiles/glfw.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/src/CMakeFiles/update_mappings.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/src/CMakeFiles/edit_cache.dir
-/mnt/1337/Projects/example_glfw_vulkan/build/glfw_build/src/CMakeFiles/rebuild_cache.dir
