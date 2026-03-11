@@ -1,7 +1,7 @@
 #include "VBengine.hpp"
 #include <string>
 #include <GLFW/glfw3.h>
-#include <vulkan.h>
+#include <vulkan/vulkan.h>
 
 #define GLFW_INCLUDE_VULKAN
 #include <iostream>
@@ -10,39 +10,36 @@
 
 using namespace std;
 
-class VBengine{
-private:
-	static string _programName;
-	static int _width, _height;
-public:
+VBengine::VBengine(const std::string& programName, int width, int height)
+{
+	_programName = programName;
+	_width = width;
+	_height = height;
+}
 
-	VBengine(string programName, int width, int height){
-		_programName = programName;
-		_width = width;
-		_height = height;
+void VBengine::Init()
+{
+	auto window = glfwCreateWindow(_width, _height, _programName.c_str(), nullptr, nullptr);
+	if (!window)
+	{
+		cout << "Failed to create window!" << endl;
+		Cleanup();
 	}
+}
 
-	void Init() {
-		auto window = glfwCreateWindow(_width, _height, _programName.c_str(), nullptr, nullptr);
-		if (!window) {
-			cout << "Failed to create window!" << endl;
-			Cleanup();
-		}
+void VBengine::Run()
+{
+}
 
-	}
+void VBengine::Cleanup()
+{
+	glfwTerminate();
+}
 
-	void Run() {
-
-	}
-
-	void Cleanup() {
-		glfwTerminate();
-	}
-
-	~VBengine(){
-		/*vkDestroyInstance(instance, nullptr);
-		vkDestroyDevice(device, nullptr);
-		glfwDestroyWindow(window);
-		*/
-	}
-};
+VBengine::~VBengine()
+{
+	/*vkDestroyInstance(instance, nullptr);
+	vkDestroyDevice(device, nullptr);
+	glfwDestroyWindow(window);
+	*/
+}

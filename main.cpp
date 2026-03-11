@@ -537,8 +537,8 @@ int main() {
     }
 
     // Чтение шейдеров
-    vector<char> vertShaderCode = readFile("../shader/vert.spv");
-    vector<char> fragShaderCode = readFile("../shader/frag.spv");
+    vector<char> vertShaderCode = readFile("shader/vert.spv");
+    vector<char> fragShaderCode = readFile("shader/frag.spv");
 
     if (vertShaderCode.empty() || fragShaderCode.empty()) {
         cout << "Failed to read shader files!" << endl;

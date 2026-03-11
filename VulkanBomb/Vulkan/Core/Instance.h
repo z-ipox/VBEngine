@@ -3,17 +3,18 @@
 #include <vector>
 #include <string>
 
-class VulkanInstance {
+class Instance {
 private:
     VkInstance _instance;
     std::vector<const char*> _extensions;
 
 public:
-    VulkanInstance();
-    ~VulkanInstance();
+    Instance() : _instance(VK_NULL_HANDLE) {}
 
-    VulkanInstance(const VulkanInstance&) = delete;
-    VulkanInstance& operator=(const VulkanInstance&) = delete;
+    ~Instance();
+
+    Instance(const Instance&) = delete;
+    Instance& operator=(const Instance&) = delete;
 
     bool Init(const std::string& appName,
               uint32_t appVersion = VK_MAKE_VERSION(1, 0, 0),
