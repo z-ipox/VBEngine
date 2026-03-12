@@ -6,7 +6,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <iostream>
 #include <ostream>
-#include <GLFW/glfw3.h>
+#include "Vulkan/Core/Instance.h"
+#include "Vulkan/Core/Device.h"
 
 using namespace std;
 
@@ -24,11 +25,36 @@ void VBengine::Init()
 	{
 		cout << "Failed to create window!" << endl;
 		Cleanup();
+
+	} else {
+		
+		uint32_t glfwExtensionCount = 0;
+    	const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+   	 	vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+		if (!_vulkanInstance.Init(_programName, extensions)) {
+        	throw runtime_error("Failed to create VkInstance");
+    	}
+    	cout << "Vulkan Instance created successfully\n";
+
+		if (VkResult result = glfwCreateWindowSurface(_vulkanInstance.get(), _window,
+			nullptr,
+			&_surface
+		) != VK_SUCCESS){
+			throw runtime_error("Failed to create glfwWindowSurface");
+		}
+		cout << "WindowSurface created successfully\n";
+
+		
+
+		Run();
+	
 	}
 }
 
 void VBengine::Run()
 {
+
 }
 
 void VBengine::Cleanup()
