@@ -5,8 +5,8 @@
 #include <string>
 #include <expected>
 
-enum class instance_error{
-    init_error
+enum class InstanceError{
+    InstanceInitError
 };
 
 class Instance {
@@ -22,7 +22,7 @@ public:
     Instance(const Instance&) = delete;
     Instance& operator=(const Instance&) = delete;
 
-    std::expected<void, instance_error> Init(const std::string& appName,
+    std::expected<void, InstanceError> Init(const std::string& appName,
               const std::vector<const char*>& extensions = {});
 
     VkInstance get() const { return _instance; }

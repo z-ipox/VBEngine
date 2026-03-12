@@ -12,7 +12,7 @@ Instance::~Instance()
     }
 }
 
-expected<void, instance_error> Instance::Init(const std::string &appName,
+expected<void, InstanceError> Instance::Init(const std::string &appName,
                     const std::vector<const char *> &extensions)
 {
     _extensions = extensions;
@@ -20,7 +20,7 @@ expected<void, instance_error> Instance::Init(const std::string &appName,
     VkApplicationInfo appInfo{};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = appName.c_str();
-    appInfo.applicationVersion = VK_MAKE_VERSION(1,0,0);
+    appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.pEngineName = "VBEngine";
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.apiVersion = VK_API_VERSION_1_4;
@@ -35,7 +35,7 @@ expected<void, instance_error> Instance::Init(const std::string &appName,
 
     if (result != VK_SUCCESS)
     {
-        return unexpected(instance_error::init_error);
+        return unexpected(InstanceError::InstanceInitError);
     }
 
     cout << "Vulkan Instance created successfully\n";
