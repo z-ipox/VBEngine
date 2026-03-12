@@ -1,7 +1,13 @@
 #pragma once
+#include <iostream>
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <string>
+#include <expected>
+
+enum class instance_error{
+    init_error
+};
 
 class Instance {
 private:
@@ -16,7 +22,7 @@ public:
     Instance(const Instance&) = delete;
     Instance& operator=(const Instance&) = delete;
 
-    bool Init(const std::string& appName,
+    std::expected<void, instance_error> Init(const std::string& appName,
               const std::vector<const char*>& extensions = {});
 
     VkInstance get() const { return _instance; }

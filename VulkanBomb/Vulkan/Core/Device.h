@@ -1,7 +1,13 @@
 #pragma once
 #include <vulkan/vulkan.h>
 #include <vector>
+#include <expected>
 #include <string>
+
+enum class device_error
+{
+    device_not_found
+};
 
 class Device {
 
@@ -22,7 +28,7 @@ class Device {
 
         ~Device();
 
-        bool Init(VkInstance& instance);
+        std::expected<void, device_error> Init(VkInstance& instance);
 
 
         VkDevice getDevice() const { return _device; }

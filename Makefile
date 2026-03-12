@@ -2,7 +2,7 @@ CC = g++
 
 # Flags
 LIBS = -lvulkan -lglfw -lc -lm -O3 -flto
-CFLAGS = 
+CFLAGS = -std=c++26
 OUTPUT = vbengine
 
 # Sources

@@ -1,9 +1,13 @@
-#ifndef VBENGINE_HPP
-#define VBENGINE_HPP
-
+#pragma once
 #include <string>
+
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
+
+#include <iostream>
+#include <ostream>
+#include "Vulkan/Core/Instance.h"
+#include "Vulkan/Core/Device.h"
 
 
 class VBengine {
@@ -25,7 +29,7 @@ public:
     , _window(nullptr)
     , _surface(VK_NULL_HANDLE)
     , _device(VK_NULL_HANDLE)
-    , _swapchain(VK_NULL_HANDLE);
+    , _swapchain(VK_NULL_HANDLE) {}
     ~VBengine();
 
     VBengine(const VBengine&) = delete;
@@ -39,5 +43,3 @@ public:
     int GetWidth() { return _width; }
     int GetHeight() { return _height; }
 };
-
-#endif

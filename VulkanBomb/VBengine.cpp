@@ -1,22 +1,7 @@
 #include "VBengine.hpp"
-#include <string>
-#include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
 
-#define GLFW_INCLUDE_VULKAN
-#include <iostream>
-#include <ostream>
-#include "Vulkan/Core/Instance.h"
-#include "Vulkan/Core/Device.h"
 
 using namespace std;
-
-VBengine::VBengine(const std::string& programName, int width, int height)
-{
-	_programName = programName;
-	_width = width;
-	_height = height;
-}
 
 void VBengine::Init()
 {
@@ -32,12 +17,14 @@ void VBengine::Init()
     	const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
    	 	vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-		if (!_vulkanInstance.Init(_programName, extensions)) {
+		Instance _instance;
+
+		if (!_instance.Init(_programName, extensions)) {
         	throw runtime_error("Failed to create VkInstance");
     	}
     	cout << "Vulkan Instance created successfully\n";
 
-		if (VkResult result = glfwCreateWindowSurface(_vulkanInstance.get(), _window,
+		if (!glfwCreateWindowSurface(_instance.get(), _window,
 			nullptr,
 			&_surface
 		) != VK_SUCCESS){

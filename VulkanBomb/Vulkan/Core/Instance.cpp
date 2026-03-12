@@ -1,14 +1,10 @@
 
 #include "Instance.h"
 
-#include <iostream>
-#include <vulkan/vulkan.h>
-
 using namespace std;
 
 Instance::~Instance()
 {
-
     if (_instance != VK_NULL_HANDLE)
     {
         vkDestroyInstance(_instance, nullptr);
@@ -16,10 +12,9 @@ Instance::~Instance()
     }
 }
 
-bool Instance::Init(const std::string &appName,
+expected<void, instance_error> Instance::Init(const std::string &appName,
                     const std::vector<const char *> &extensions)
 {
-
     _extensions = extensions;
 
     VkApplicationInfo appInfo{};
@@ -40,13 +35,10 @@ bool Instance::Init(const std::string &appName,
 
     if (result != VK_SUCCESS)
     {
-        cerr << "Failed to create Vulkan Instance: " << result << endl;
-        return false;
+        return unexpected(instance_error::init_error);
     }
 
     cout << "Vulkan Instance created successfully\n";
-    return true;
-
 
 }
 
