@@ -91,7 +91,7 @@ static void framebufferResizeCallback(GLFWwindow* window, int width, int height)
 }
 
 // Функция пересоздания swapchain
-void recreateSwapchain(VkDevice device, VkPhysicalDevice phDevice, VkSurfaceKHR surface,
+void recreateSwapchain(GLFWwindow* window, VkDevice device, VkPhysicalDevice phDevice, VkSurfaceKHR surface,
                       VkSwapchainKHR& swapchain, vector<VkImage>& swapchainImages,
                       vector<VkImageView>& swapchainImageViews, VkRenderPass renderPass,
                       vector<VkFramebuffer>& framebuffers, VkPipeline graphicsPipeline,
@@ -121,7 +121,7 @@ void recreateSwapchain(VkDevice device, VkPhysicalDevice phDevice, VkSurfaceKHR 
         extent = capabilities.currentExtent;
     } else {
         int width, height;
-        glfwGetFramebufferSize(glfwGetCurrentContext(), &width, &height);
+        glfwGetFramebufferSize(window, &width, &height);;
         extent.width = std::clamp(static_cast<uint32_t>(width),
                                    capabilities.minImageExtent.width,
                                    capabilities.maxImageExtent.width);
@@ -736,7 +736,7 @@ int main() {
 
         // Обработка ресайза
         if (g_FramebufferResized) {
-            recreateSwapchain(device, phDevice, surface, swapchain, swapchainImages,
+            recreateSwapchain(window, device, phDevice, surface, swapchain, swapchainImages,
                             swapchainImageViews, renderPass, framebuffers, graphicsPipeline,
                             pipelineLayout, extent, surfaceFormat, commandPool,
                             commandBuffers, MAX_FRAMES_IN_FLIGHT,
@@ -764,7 +764,7 @@ int main() {
                                                 VK_NULL_HANDLE, &imageIndex);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            recreateSwapchain(device, phDevice, surface, swapchain, swapchainImages,
+            recreateSwapchain(window, device, phDevice, surface, swapchain, swapchainImages,
                             swapchainImageViews, renderPass, framebuffers, graphicsPipeline,
                             pipelineLayout, extent, surfaceFormat, commandPool,
                             commandBuffers, MAX_FRAMES_IN_FLIGHT,
@@ -808,7 +808,7 @@ int main() {
         result = vkQueuePresentKHR(presentQueue, &presentInfo);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || g_FramebufferResized) {
-            recreateSwapchain(device, phDevice, surface, swapchain, swapchainImages,
+            recreateSwapchain(window, device, phDevice, surface, swapchain, swapchainImages,
                             swapchainImageViews, renderPass, framebuffers, graphicsPipeline,
                             pipelineLayout, extent, surfaceFormat, commandPool,
                             commandBuffers, MAX_FRAMES_IN_FLIGHT,

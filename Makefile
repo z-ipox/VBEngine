@@ -1,7 +1,7 @@
 CC = g++
 
 # Flags
-LIBS = -lvulkan -lglfw -lc -lm
+LIBS = -lvulkan -lglfw -lc -lm -O3 -flto
 CFLAGS = 
 OUTPUT = vbengine
 
