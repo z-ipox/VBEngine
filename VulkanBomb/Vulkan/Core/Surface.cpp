@@ -3,7 +3,7 @@
 expected<void, SurfaceError> Surface::Init(
     VkInstance instance, GLFWwindow *window){
 
-    if(instance == nullptr || instance == VK_NULL_HANDLE){
+    if(instance == VK_NULL_HANDLE){
         return unexpected(SurfaceError::SurfaceInstanceError);
     }
     if(glfwCreateWindowSurface(instance, window, nullptr, &_surface) != VK_SUCCESS){

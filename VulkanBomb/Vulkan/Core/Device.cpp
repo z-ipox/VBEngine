@@ -1,12 +1,12 @@
 #include "Device.h"
 
-expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR *surface)
+expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR &surface)
 {
-    if (surface == nullptr || *surface == VK_NULL_HANDLE) {
+    if (surface == VK_NULL_HANDLE) {
         return unexpected(DeviceError::DeviceInvalidSurface);
     }
 
-    _surface = *surface;  
+    _surface = surface;  
 
     if (findPhysicalDevice(instance) == false){
         return unexpected(DeviceError::DeviceNotFound);

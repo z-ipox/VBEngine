@@ -8,6 +8,18 @@ expected<void, SwapChainError>SwapChain::Init(
             int &graphicsQueueFamilyIndex, int &presentQueueFamilyIndex)
 {
 
+    if (device == VK_NULL_HANDLE){
+        unexpected(SwapChainError::SwapChainDeviceError);
+    }
+    if (capabilities.minImageCount == 0 ){
+        unexpected(SwapChainError::SwapChainCapabilitiesError);
+    }
+    if (imageCount == 0){
+        unexpected(SwapChainError::SwapChainImageCountError);
+    }
+    if (surfaceFormat.format == VK_FORMAT_UNDEFINED){
+        unexpected(SwapChainError::SwapChainSurfaceFormatError);
+    }
 
     _device = device;
     _extent2D = capabilities.currentExtent;

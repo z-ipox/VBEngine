@@ -9,7 +9,11 @@ using namespace std;
 
 enum class SwapChainError{
     SwapChainInitError,
-    SwapChainCreateImageViewsError
+    SwapChainCreateImageViewsError,
+    SwapChainSurfaceFormatError,
+    SwapChainDeviceError,
+    SwapChainCapabilitiesError,
+    SwapChainImageCountError,
 };
 
 class SwapChain{

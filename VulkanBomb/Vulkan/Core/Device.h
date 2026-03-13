@@ -46,7 +46,7 @@ class Device {
 
         ~Device();
 
-        expected<void, DeviceError> Init(VkInstance& instance, VkSurfaceKHR *surface);
+        expected<void, DeviceError> Init(VkInstance& instance, VkSurfaceKHR &surface);
 
         VkDevice getDevice() const { return _device; }
         VkPhysicalDevice getPhysicalDevice() const { return _physicalDevice; }
