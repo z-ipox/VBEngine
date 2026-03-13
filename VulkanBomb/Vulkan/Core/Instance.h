@@ -5,6 +5,8 @@
 #include <string>
 #include <expected>
 
+using namespace std;
+
 enum class InstanceError{
     InstanceInitError
 };
@@ -12,7 +14,7 @@ enum class InstanceError{
 class Instance {
 private:
     VkInstance _instance;
-    std::vector<const char*> _extensions;
+    vector<const char*> _extensions;
 
 public:
     Instance() : _instance(VK_NULL_HANDLE) {}
@@ -22,12 +24,12 @@ public:
     Instance(const Instance&) = delete;
     Instance& operator=(const Instance&) = delete;
 
-    std::expected<void, InstanceError> Init(const std::string& appName,
-              const std::vector<const char*>& extensions = {});
+    expected<void, InstanceError> Init(const string& appName,
+              const vector<const char*>& extensions = {});
 
-    VkInstance get() const { return _instance; }
+    VkInstance getInstance() const { return _instance; }
 
-    const std::vector<const char*>& getExtensions() const { return _extensions; }
+    const vector<const char*>& getExtensions() const { return _extensions; }
 
     bool isValid() const { return _instance != VK_NULL_HANDLE; }
 };

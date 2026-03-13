@@ -1,13 +1,51 @@
-//
-// Created by c1337 on 3/10/26.
-//
+#pragma once;
+#include <vulkan/vulkan.h>
+#include <vector>
+#include <expected>
+#include <string>
+#include <set>
 
-#ifndef IMGUI_EXAMPLE_GLFW_VULKAN_SWAPCHAIN_H
-#define IMGUI_EXAMPLE_GLFW_VULKAN_SWAPCHAIN_H
+using namespace std;
 
-
-class SwapChain {
+enum class SwapChainError{
+    SwapChainInitError,
+    SwapChainCreateImageViewsError
 };
 
+class SwapChain{
+    private:
+        VkExtent2D _extent2D;
+        VkSwapchainKHR _swapchain;
+        VkSwapchainCreateInfoKHR _swapchainCreateInfo;
+        VkDevice _device;
+        vector<VkImage> _swapchainImages;
+        vector<VkImageView> _swapchainImageViews;
+        uint32_t _imageCount;
+        VkSurfaceFormatKHR _surfaceFormat;
+        int _graphicsQueueFamilyIndex,
+            _presentQueueFamilyIndex;
 
-#endif //IMGUI_EXAMPLE_GLFW_VULKAN_SWAPCHAIN_H
+        bool createSwapChain(
+            VkSurfaceKHR &surface, VkSurfaceCapabilitiesKHR &capabilities,
+            VkPresentModeKHR &presentMode);
+
+        bool getImagesSwapChain();
+
+    public:
+        SwapChain() : 
+            _swapchain(VK_NULL_HANDLE)
+            , _device(VK_NULL_HANDLE){}
+
+        ~SwapChain();
+
+        expected<void, SwapChainError> Init(
+            VkDevice &device, VkSurfaceKHR &surface, 
+            VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
+            VkSurfaceCapabilitiesKHR &capabilities, uint32_t &imageCount, 
+            int &graphicsQueueFamilyIndex, int &presentQueueFamilyIndex);
+
+        VkSwapchainKHR getSwapchain() const { return _swapchain; }
+        VkExtent2D getExtent2D() const { return _extent2D; }
+        vector<VkImage> getSwapChainImages() const { return _swapchainImages; }
+
+};

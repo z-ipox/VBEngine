@@ -1,7 +1,5 @@
 #include "Device.h"
 
-using namespace std;
-
 expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR *surface)
 {
     if (surface == nullptr || *surface == VK_NULL_HANDLE) {

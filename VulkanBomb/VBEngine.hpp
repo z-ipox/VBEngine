@@ -6,10 +6,10 @@
 #include <ostream>
 #include "Vulkan/Core/Instance.h"
 #include "Vulkan/Core/Device.h"
+#include "Vulkan/Core/Surface.h"
 
 enum class PresentMode {
-    VSyncOn,                // VK_PRESENT_MODE_FIFO_KHR
-    VSyncOff,               // VK_PRESENT_MODE_IMMEDIATE_KHR
+    VSync,                  // VK_PRESENT_MODE_FIFO_KHR
     VSyncAdaptive,          // VK_PRESENT_MODE_FIFO_RELAXED_KHR
     DoubleBuffered,         // VK_PRESENT_MODE_FIFO_KHR
     TripleBuffered,         // VK_PRESENT_MODE_MAILBOX_KHR
@@ -31,9 +31,14 @@ class VBengine {
         VkInstance _instance;
         VkSurfaceKHR _surface;
         VkDevice _device;
+        VkPhysicalDevice _physicalDevice;
         VkSwapchainKHR _swapchain;
         VkSurfaceCapabilitiesKHR _capabilities;
         GLFWwindow* _window;
+
+        Device _vulkanBombDevice;
+        Instance _vulkanBombInstance;
+        Surface _vulkanBombSurface;
 
     public:
         VBengine(const std::string& programName, int width, int height) : _programName(programName)

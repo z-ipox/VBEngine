@@ -1,7 +1,4 @@
-
 #include "Instance.h"
-
-using namespace std;
 
 Instance::~Instance()
 {

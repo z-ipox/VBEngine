@@ -11,32 +11,38 @@ void VBengine::Init()
 		cout << "Failed to create window!" << endl;
 		Cleanup();
 
-	} else {
+	} 
 		
-		uint32_t glfwExtensionCount = 0;
-    	const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-   	 	vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+	uint32_t glfwExtensionCount = 0;
+    const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+ 	vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-		Instance _instance;
+	Instance _vulkanBombInstance;
+	Device _vulkanBombDevice;
+	Surface _vulkanBombSurface;
 
-		if (!_instance.Init(_programName, extensions)) {
-        	throw runtime_error("Failed to create VkInstance");
-    	}
-    	cout << "Vulkan Instance created successfully\n";
-
-		if (!glfwCreateWindowSurface(_instance.get(), _window,
-			nullptr,
-			&_surface
-		) != VK_SUCCESS){
-			throw runtime_error("Failed to create glfwWindowSurface");
-		}
-		cout << "WindowSurface created successfully\n";
-
-		
-
-		Run();
-	
+	if (!_vulkanBombInstance.Init(_programName, extensions)) {
+    	throw runtime_error("Failed to create VkInstance");
 	}
+	cout << "Vulkan Instance created successfully\n";
+
+	if (!glfwCreateWindowSurface(_vulkanBombInstance.getInstance(), _window,
+		nullptr,
+		&_surface
+	) != VK_SUCCESS){
+		throw runtime_error("Failed to create glfwWindowSurface");
+	}
+	cout << "WindowSurface created successfully\n";
+
+	_instance = _vulkanBombInstance.getInstance();
+	_vulkanBombSurface.Init(_instance, window);
+	_surface = _vulkanBombSurface.getSurface();
+	_vulkanBombDevice.Init(_instance, &_surface);
+	_device = _vulkanBombDevice.getDevice();
+
+	Run();
+	
+
 }
 
 void VBengine::Run()

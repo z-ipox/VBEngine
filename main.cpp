@@ -408,7 +408,7 @@ int main() {
     // Выбор режима презентации
     VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
     for (const auto& availableMode : presentModes) {
-        if (availableMode == VK_PRESENT_MODE_MAILBOX_KHR) {
+        if (availableMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
             presentMode = availableMode;
             break;
         }

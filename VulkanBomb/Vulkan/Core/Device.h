@@ -5,6 +5,8 @@
 #include <string>
 #include <set>
 
+using namespace std;
+
 enum class DeviceError
 {
     DeviceNotFound,
@@ -20,14 +22,14 @@ class Device {
         VkDevice _device;
         VkPhysicalDevice _physicalDevice; 
         VkSurfaceKHR _surface;
-        std::vector<VkQueueFamilyProperties> _queueFamilies;
-        std::vector<VkDeviceQueueCreateInfo> _queueCreateInfos;
-        VkQueue _graphicsQueue;
-        VkQueue _presentQueue;
-        uint32_t _deviceCount;
-        uint32_t _queueFamilyCount;
-        int _graphicsQueueFamilyIndex;
-        int _presentQueueFamilyIndex;
+        vector<VkQueueFamilyProperties> _queueFamilies;
+        vector<VkDeviceQueueCreateInfo> _queueCreateInfos;
+        VkQueue _graphicsQueue,
+                _presentQueue;
+        uint32_t _deviceCount,
+                 _queueFamilyCount;
+        int _graphicsQueueFamilyIndex,
+            _presentQueueFamilyIndex;
 
         bool findPhysicalDevice(VkInstance &instance);
         bool findQueueFamiliesIndex();
@@ -44,7 +46,7 @@ class Device {
 
         ~Device();
 
-        std::expected<void, DeviceError> Init(VkInstance& instance, VkSurfaceKHR *surface);
+        expected<void, DeviceError> Init(VkInstance& instance, VkSurfaceKHR *surface);
 
         VkDevice getDevice() const { return _device; }
         VkPhysicalDevice getPhysicalDevice() const { return _physicalDevice; }
