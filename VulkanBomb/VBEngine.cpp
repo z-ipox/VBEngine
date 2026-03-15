@@ -37,7 +37,7 @@ void VBengine::Init()
 	_instance = _vulkanBombInstance.getInstance();
 	_vulkanBombSurface.Init(_instance, window);
 	_surface = _vulkanBombSurface.getSurface();
-	_vulkanBombDevice.Init(_instance, &_surface);
+	_vulkanBombDevice.Init(_instance, _surface);
 	_device = _vulkanBombDevice.getDevice();
 
 	Run();

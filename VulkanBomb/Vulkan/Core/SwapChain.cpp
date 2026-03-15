@@ -1,7 +1,7 @@
 
 #include "SwapChain.h"
 
-expected<void, SwapChainError>SwapChain::Init(
+expected<void, SwapChainError> SwapChain::Init(
             VkDevice &device, VkSurfaceKHR &surface, 
             VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
             VkSurfaceCapabilitiesKHR &capabilities, uint32_t &imageCount, 

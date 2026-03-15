@@ -1,2 +1,4 @@
 vbengine
 .vscode
+example_glfw_vulkan.vcxproj
+example_glfw_vulkan.vcxproj.filters

@@ -1,8 +1,7 @@
-#pragma once;
+#pragma once
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <expected>
-#include <string>
 #include <set>
 
 using namespace std;
@@ -51,5 +50,5 @@ class SwapChain{
         VkSwapchainKHR getSwapchain() const { return _swapchain; }
         VkExtent2D getExtent2D() const { return _extent2D; }
         vector<VkImage> getSwapChainImages() const { return _swapchainImages; }
-
+        vector<VkImageView> getSwapChainImageViews() const { return _swapchainImageViews; }
 };
