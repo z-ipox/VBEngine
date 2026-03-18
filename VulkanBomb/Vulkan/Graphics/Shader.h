@@ -3,18 +3,18 @@
 #include <vector>
 #include <expected>
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <set>
 
 using namespace std;
 
-// struct ShaderStage {
-//     VkShaderModule module;
-//     VkShaderStageFlagBits stage;
-//     std::string entryPoint = "main";
-// };
-
 enum class ShaderError{
     ShaderInitError,
+    ShaderInitDeviceError,
+    ShaderLoadReadError,
+    ShaderCreateError,
+    ShaderInvalidStage
 };
 
 class Shader {
@@ -22,6 +22,11 @@ class Shader {
         VkDevice _device;
         vector<VkPipelineShaderStageCreateInfo> _shaderStages;
         vector<VkShaderModule> _modules;
+        VkShaderModule _shaderModule;
+        VkShaderModuleCreateInfo _shaderModuleCreateInfo{};
+        VkPipelineShaderStageCreateInfo _shaderStageInfo{};
+
+        VkShaderModule createShaderModule(VkDevice device, vector<char> code);
 
     public:
         Shader() : 
@@ -29,7 +34,7 @@ class Shader {
         ~Shader();
 
         expected<void, ShaderError> Init(VkDevice &device);
-        bool Load(const string& filePath, VkShaderStageFlagBits stage);
+        expected<void, ShaderError> Load(const string& filePath, VkShaderStageFlagBits stage);
 
         const vector<VkPipelineShaderStageCreateInfo>& getStages() const { return _shaderStages; }
     
