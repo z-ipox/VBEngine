@@ -1,14 +1,5 @@
 #include "Instance.h"
 
-Instance::~Instance()
-{
-    if (_instance != VK_NULL_HANDLE)
-    {
-        vkDestroyInstance(_instance, nullptr);
-        cout << "Vulkan Instance destroyed";
-    }
-}
-
 expected<void, InstanceError> Instance::Init(const std::string &appName,
                     const std::vector<const char *> &extensions)
 {
@@ -34,9 +25,13 @@ expected<void, InstanceError> Instance::Init(const std::string &appName,
     {
         return unexpected(InstanceError::InstanceInitError);
     }
-
-    cout << "Vulkan Instance created successfully\n";
-
+    return {};
 }
 
-
+// Instance::~Instance()
+// {
+//     if (_instance != VK_NULL_HANDLE)
+//     {
+//         vkDestroyInstance(_instance, nullptr);
+//     }
+// }

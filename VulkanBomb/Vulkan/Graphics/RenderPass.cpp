@@ -14,6 +14,7 @@ expected<void, RenderPassErrors> RenderPass::Init(
     if (CreateRenderPass() == false){
         return unexpected(RenderPassErrors::RederPassCreateRenderPassError);
     }
+    return {};
 }
 
 bool RenderPass::CreateRenderPass(){
@@ -40,16 +41,18 @@ bool RenderPass::CreateRenderPass(){
     _dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     _dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
-    _renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-    _renderPassCreateInfo.attachmentCount = 1;
-    _renderPassCreateInfo.pAttachments = &_colorAttachment;
-    _renderPassCreateInfo.subpassCount = 1;
-    _renderPassCreateInfo.pSubpasses = &_subpass;
-    _renderPassCreateInfo.dependencyCount = 1;
-    _renderPassCreateInfo.pDependencies = &_dependency;
+    VkRenderPassCreateInfo renderPassCreateInfo{};
+    renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    renderPassCreateInfo.attachmentCount = 1;
+    renderPassCreateInfo.pAttachments = &_colorAttachment;
+    renderPassCreateInfo.subpassCount = 1;
+    renderPassCreateInfo.pSubpasses = &_subpass;
+    renderPassCreateInfo.dependencyCount = 1;
+    renderPassCreateInfo.pDependencies = &_dependency;
 
-    if (vkCreateRenderPass(_device, &_renderPassCreateInfo, nullptr, &_renderPass) != VK_SUCCESS) {
+    if (vkCreateRenderPass(_device, &renderPassCreateInfo, nullptr, &_renderPass) != VK_SUCCESS) {
         return false;
     }
+
     return true;
 }

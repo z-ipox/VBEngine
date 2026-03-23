@@ -21,7 +21,7 @@ expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR &sur
     vkGetDeviceQueue(_device, _graphicsQueueFamilyIndex, 0, &_graphicsQueue);
     vkGetDeviceQueue(_device, _presentQueueFamilyIndex, 0, &_presentQueue);
     
-
+    return {};
 }
 
 bool Device::findPhysicalDevice(VkInstance &instance){
@@ -70,6 +70,7 @@ bool Device::createLogicDevice(){
         static_cast<uint32_t>(_graphicsQueueFamilyIndex),
         static_cast<uint32_t>(_presentQueueFamilyIndex)
     };
+    vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
     float queuePriority = 1.0f;
     for (uint32_t queueFamily : uniqueQueueFamilies) {
@@ -78,7 +79,7 @@ bool Device::createLogicDevice(){
         queueCreateInfo.queueFamilyIndex = queueFamily;
         queueCreateInfo.queueCount = 1;
         queueCreateInfo.pQueuePriorities = &queuePriority;
-        _queueCreateInfos.push_back(queueCreateInfo);
+        queueCreateInfos.push_back(queueCreateInfo);
     }
 
     const char* deviceExtensions[] = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
@@ -88,8 +89,8 @@ bool Device::createLogicDevice(){
     VkDeviceCreateInfo deviceCreateInfo = {};
     deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.pNext = nullptr;
-    deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(_queueCreateInfos.size());
-    deviceCreateInfo.pQueueCreateInfos = _queueCreateInfos.data();
+    deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+    deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
     deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
     deviceCreateInfo.enabledExtensionCount = 1;
     deviceCreateInfo.ppEnabledExtensionNames = deviceExtensions;

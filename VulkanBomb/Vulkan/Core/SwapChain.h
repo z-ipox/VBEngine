@@ -19,12 +19,11 @@ class SwapChain{
     private:
         VkExtent2D _extent2D;
         VkSwapchainKHR _swapchain;
-        VkSwapchainCreateInfoKHR _swapchainCreateInfo;
         VkDevice _device;
         vector<VkImage> _swapchainImages;
         vector<VkImageView> _swapchainImageViews;
-        uint32_t _imageCount;
         VkSurfaceFormatKHR _surfaceFormat;
+        uint32_t _imageCount;
         int _graphicsQueueFamilyIndex,
             _presentQueueFamilyIndex;
 
@@ -44,7 +43,7 @@ class SwapChain{
         expected<void, SwapChainError> Init(
             VkDevice &device, VkSurfaceKHR &surface, 
             VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
-            VkSurfaceCapabilitiesKHR &capabilities, uint32_t &imageCount, 
+            VkSurfaceCapabilitiesKHR &capabilities,
             int &graphicsQueueFamilyIndex, int &presentQueueFamilyIndex);
 
         VkSwapchainKHR getSwapchain() const { return _swapchain; }

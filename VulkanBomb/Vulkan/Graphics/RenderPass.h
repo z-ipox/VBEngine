@@ -17,7 +17,6 @@ class RenderPass{
         VkAttachmentReference _colorAttachmentRef;
         VkSubpassDescription _subpass;
         VkSubpassDependency _dependency;
-        VkRenderPassCreateInfo _renderPassCreateInfo;
         VkRenderPass _renderPass;
         VkDevice _device;
         VkSurfaceFormatKHR _surfaceFormat;

@@ -23,9 +23,7 @@ class Shader {
         vector<VkPipelineShaderStageCreateInfo> _shaderStages;
         vector<VkShaderModule> _modules;
         VkShaderModule _shaderModule;
-        VkShaderModuleCreateInfo _shaderModuleCreateInfo{};
-        VkPipelineShaderStageCreateInfo _shaderStageInfo{};
-
+    
         VkShaderModule createShaderModule(VkDevice device, vector<char> code);
 
     public:

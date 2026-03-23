@@ -23,7 +23,6 @@ class Device {
         VkPhysicalDevice _physicalDevice; 
         VkSurfaceKHR _surface;
         vector<VkQueueFamilyProperties> _queueFamilies;
-        vector<VkDeviceQueueCreateInfo> _queueCreateInfos;
         VkQueue _graphicsQueue,
                 _presentQueue;
         uint32_t _deviceCount,

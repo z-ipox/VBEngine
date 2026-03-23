@@ -16,21 +16,20 @@ enum class PipeLineError{
 class Pipeline{
     private:
         VkDevice _device;
-        vector<VkPipelineShaderStageCreateInfo> _shaderStages{};
+        vector<VkPipelineShaderStageCreateInfo> _shaderStages;
         VkRenderPass _renderPass;
         VkPipeline _pipeline;
         VkPipelineLayout _pipelineLayout;
-        VkPipelineLayoutCreateInfo _pipelineLayoutCreateInfo{};
-        VkPipelineVertexInputStateCreateInfo _vertexInputInfo{};
-        VkPipelineInputAssemblyStateCreateInfo _inputAssembly{};
-        VkPipelineViewportStateCreateInfo _viewportState{};
-        VkPipelineRasterizationStateCreateInfo _rasterizer{};
-        VkPipelineMultisampleStateCreateInfo _multisampling{};
-        VkPipelineColorBlendAttachmentState _colorBlendAttachment{};
-        VkPipelineColorBlendStateCreateInfo _colorBlending{};
-        vector<VkDynamicState> _dynamicStates{};
-        VkPipelineDynamicStateCreateInfo _dynamicState{};
-        VkGraphicsPipelineCreateInfo _pipelineCreateInfo{};
+        VkPipelineVertexInputStateCreateInfo _vertexInputInfo;
+        VkPipelineInputAssemblyStateCreateInfo _inputAssembly;
+        VkPipelineViewportStateCreateInfo _viewportState;
+        VkPipelineRasterizationStateCreateInfo _rasterizer;
+        VkPipelineMultisampleStateCreateInfo _multisampling;
+        VkPipelineColorBlendAttachmentState _colorBlendAttachment;
+        VkPipelineColorBlendStateCreateInfo _colorBlending;
+        vector<VkDynamicState> _dynamicStates;
+        VkPipelineDynamicStateCreateInfo _dynamicState;
+        
 
         bool createPipelineLayout();
         bool createGraphicsPipeline();

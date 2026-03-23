@@ -24,16 +24,17 @@ expected<void, PipeLineError> Pipeline::Init(
     if (createGraphicsPipeline() == false){
         return unexpected(PipeLineError::PipeLineCreateGraphicsError);
     }
-
+    return {};
 }
 
 bool Pipeline::createPipelineLayout()
 {
-    _pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    _pipelineLayoutCreateInfo.setLayoutCount = 0;
-    _pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+    VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};
+    pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutCreateInfo.setLayoutCount = 0;
+    pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 
-    if (vkCreatePipelineLayout(_device, &_pipelineLayoutCreateInfo, nullptr, &_pipelineLayout) != VK_SUCCESS)
+    if (vkCreatePipelineLayout(_device, &pipelineLayoutCreateInfo, nullptr, &_pipelineLayout) != VK_SUCCESS)
     {
         return false;
     }
@@ -87,22 +88,23 @@ bool Pipeline::createPipelineLayout()
 
 bool Pipeline::createGraphicsPipeline()
 {
-    _pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-    _pipelineCreateInfo.stageCount = 2;
-    _pipelineCreateInfo.pStages = _shaderStages.data();
-    _pipelineCreateInfo.pVertexInputState = &_vertexInputInfo;
-    _pipelineCreateInfo.pInputAssemblyState = &_inputAssembly;
-    _pipelineCreateInfo.pViewportState = &_viewportState;
-    _pipelineCreateInfo.pRasterizationState = &_rasterizer;
-    _pipelineCreateInfo.pMultisampleState = &_multisampling;
-    _pipelineCreateInfo.pColorBlendState = &_colorBlending;
-    _pipelineCreateInfo.pDynamicState = &_dynamicState;
-    _pipelineCreateInfo.layout = _pipelineLayout;
-    _pipelineCreateInfo.renderPass = _renderPass;
-    _pipelineCreateInfo.subpass = 0;
-    _pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+    VkGraphicsPipelineCreateInfo pipelineCreateInfo{};
+    pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineCreateInfo.stageCount = 2;
+    pipelineCreateInfo.pStages = _shaderStages.data();
+    pipelineCreateInfo.pVertexInputState = &_vertexInputInfo;
+    pipelineCreateInfo.pInputAssemblyState = &_inputAssembly;
+    pipelineCreateInfo.pViewportState = &_viewportState;
+    pipelineCreateInfo.pRasterizationState = &_rasterizer;
+    pipelineCreateInfo.pMultisampleState = &_multisampling;
+    pipelineCreateInfo.pColorBlendState = &_colorBlending;
+    pipelineCreateInfo.pDynamicState = &_dynamicState;
+    pipelineCreateInfo.layout = _pipelineLayout;
+    pipelineCreateInfo.renderPass = _renderPass;
+    pipelineCreateInfo.subpass = 0;
+    pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-    if (vkCreateGraphicsPipelines(_device, VK_NULL_HANDLE, 1, &_pipelineCreateInfo, nullptr, &_pipeline) != VK_SUCCESS)
+    if (vkCreateGraphicsPipelines(_device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &_pipeline) != VK_SUCCESS)
     {
         return false;
     }
