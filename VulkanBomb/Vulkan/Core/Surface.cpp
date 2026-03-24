@@ -1,7 +1,7 @@
 #include "Surface.h"
 
 expected<void, SurfaceError> Surface::Init(
-    VkInstance &instance, GLFWwindow *window, 
+    VkInstance instance, GLFWwindow *window, 
     PresentMode presentMode, SurfaceColorFormat format)
 {
 

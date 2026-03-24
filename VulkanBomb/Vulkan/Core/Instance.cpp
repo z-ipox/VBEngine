@@ -1,7 +1,7 @@
 #include "Instance.h"
 
-expected<void, InstanceError> Instance::Init(const std::string &appName,
-                    const std::vector<const char *> &extensions)
+expected<void, InstanceError> Instance::Init(const string &appName,
+                    const vector<const char *> &extensions)
 {
     _extensions = extensions;
 

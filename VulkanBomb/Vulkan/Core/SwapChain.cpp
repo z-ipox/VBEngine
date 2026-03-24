@@ -2,28 +2,37 @@
 #include "SwapChain.h"
 
 expected<void, SwapChainError> SwapChain::Init(
-            VkDevice &device, VkSurfaceKHR &surface, 
+            VkDevice device, VkSurfaceKHR surface, 
             VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
             VkSurfaceCapabilitiesKHR &capabilities,
-            int &graphicsQueueFamilyIndex, int &presentQueueFamilyIndex)
+            uint32_t graphicsQueueFamilyIndex, uint32_t presentQueueFamilyIndex)
 {
 
     if (device == VK_NULL_HANDLE){
-        unexpected(SwapChainError::SwapChainDeviceError);
+        return unexpected(SwapChainError::SwapChainInvalidDevice);
+    }
+    if (surface == VK_NULL_HANDLE){
+        return unexpected(SwapChainError::SwapChainInvalidSurface);
+    }
+    if (presentMode < 0){
+        return unexpected(SwapChainError::SwapChainInvalidPresentMode);
     }
     if (capabilities.minImageCount == 0 ){
-        unexpected(SwapChainError::SwapChainCapabilitiesError);
+        return unexpected(SwapChainError::SwapChainCapabilitiesError);
     }
     if (surfaceFormat.format == VK_FORMAT_UNDEFINED){
-        unexpected(SwapChainError::SwapChainSurfaceFormatError);
+        return unexpected(SwapChainError::SwapChainSurfaceFormatError);
     }
 
     _device = device;
+    _surface = surface;
+    _presentMode = presentMode;
+    _capabilities = capabilities;
     _extent2D = capabilities.currentExtent;
     _imageCount = capabilities.minImageCount + 1;
     _surfaceFormat = surfaceFormat;
 
-    if (createSwapChain(surface, capabilities, presentMode) == false) {
+    if (createSwapChain() == false) {
         return unexpected(SwapChainError::SwapChainInitError);
     }
     if (getImagesSwapChain() == false){
@@ -32,13 +41,11 @@ expected<void, SwapChainError> SwapChain::Init(
     return {};
 }
 
-bool SwapChain::createSwapChain(
-    VkSurfaceKHR &surface, VkSurfaceCapabilitiesKHR &capabilities,
-    VkPresentModeKHR &presentMode)
+bool SwapChain::createSwapChain()
 {
     VkSwapchainCreateInfoKHR swapchainCreateInfo{};
     swapchainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-    swapchainCreateInfo.surface = surface;
+    swapchainCreateInfo.surface = _surface;
     swapchainCreateInfo.minImageCount = _imageCount;
     swapchainCreateInfo.imageFormat = _surfaceFormat.format;
     swapchainCreateInfo.imageColorSpace = _surfaceFormat.colorSpace;
@@ -46,9 +53,9 @@ bool SwapChain::createSwapChain(
     swapchainCreateInfo.imageArrayLayers = 1;
     swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // VK_IMAGE_USAGE_TRANSFER_DST_BIT  VK_IMAGE_USAGE_SAMPLED_BIT;
     swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    swapchainCreateInfo.preTransform = capabilities.currentTransform;
+    swapchainCreateInfo.preTransform = _capabilities.currentTransform;
     swapchainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-    swapchainCreateInfo.presentMode = presentMode;
+    swapchainCreateInfo.presentMode = _presentMode;
     swapchainCreateInfo.clipped = VK_TRUE;
     swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
 

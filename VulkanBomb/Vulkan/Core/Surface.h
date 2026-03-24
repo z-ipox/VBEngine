@@ -4,7 +4,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
 #include <vector>
-#include "../../VBEngine.hpp"
+#include "../../Common.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ class Surface{
         ~Surface();
 
         expected<void, SurfaceError> Init(
-            VkInstance &instance, GLFWwindow *window, PresentMode presentMode, SurfaceColorFormat format);
+            VkInstance instance, GLFWwindow *window, PresentMode presentMode, SurfaceColorFormat format);
         
         VkSurfaceKHR getSurface() const { return _surface; }
         VkSurfaceCapabilitiesKHR getCapabilities() const { return _capabilities; }

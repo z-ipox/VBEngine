@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <set>
+#include <array>
 
 using namespace std;
 
@@ -24,14 +25,14 @@ class Shader {
         vector<VkShaderModule> _modules;
         VkShaderModule _shaderModule;
     
-        VkShaderModule createShaderModule(VkDevice device, vector<char> code);
+        VkShaderModule createShaderModule(vector<char> &code);
 
     public:
         Shader() : 
             _device(VK_NULL_HANDLE){}
         ~Shader();
 
-        expected<void, ShaderError> Init(VkDevice &device);
+        expected<void, ShaderError> Init(VkDevice device);
         expected<void, ShaderError> Load(const string& filePath, VkShaderStageFlagBits stage);
 
         const vector<VkPipelineShaderStageCreateInfo>& getStages() const { return _shaderStages; }

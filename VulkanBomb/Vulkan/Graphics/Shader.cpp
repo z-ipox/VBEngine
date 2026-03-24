@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-expected<void, ShaderError> Shader::Init(VkDevice &device)
+expected<void, ShaderError> Shader::Init(VkDevice device)
 {
     if (device == VK_NULL_HANDLE){
         return unexpected(ShaderError::ShaderInitDeviceError);
@@ -24,7 +24,7 @@ expected<void, ShaderError> Shader::Load(const string& filePath, VkShaderStageFl
     file.read(buffer.data(), fileSize);
     file.close();
 
-    _shaderModule = createShaderModule(_device, buffer);
+    _shaderModule = createShaderModule(buffer);
     if ( _shaderModule == VK_NULL_HANDLE){
         return unexpected(ShaderError::ShaderCreateError);
     }
@@ -39,14 +39,14 @@ expected<void, ShaderError> Shader::Load(const string& filePath, VkShaderStageFl
     return {};
 }
 
-VkShaderModule Shader::createShaderModule(VkDevice device, vector<char> code) 
+VkShaderModule Shader::createShaderModule(vector<char> &code) 
 {
     VkShaderModuleCreateInfo shaderModuleCreateInfo{};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = code.size();
     shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
-    if (vkCreateShaderModule(device, &shaderModuleCreateInfo, nullptr, &_shaderModule) != VK_SUCCESS) {
+    if (vkCreateShaderModule(_device, &shaderModuleCreateInfo, nullptr, &_shaderModule) != VK_SUCCESS) {
         return VK_NULL_HANDLE;
     }
     return _shaderModule;

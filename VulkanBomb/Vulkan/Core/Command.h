@@ -20,8 +20,7 @@ class Command {
         vector<VkSemaphore> _imageAvailableSemaphores;
         vector<VkSemaphore> _renderFinishedSemaphores;
         vector<VkFence> _inFlightFences;
-        uint32_t _maxFrameInFlight;
-        int _graphicsQueueFamilyIndex;
+        uint32_t _maxFrameInFlight, _graphicsQueueFamilyIndex;
 
         bool createCommandPool();
         bool createCommandBuffers();
@@ -33,7 +32,7 @@ class Command {
             , _commandPool(VK_NULL_HANDLE){}
         ~Command();
 
-        expected<void, CommandError> Init(VkDevice &device, uint32_t &maxFrameInFlight, int &graphicsQueueFamilyIndex);
+        expected<void, CommandError> Init(VkDevice device, uint32_t maxFrameInFlight, uint32_t graphicsQueueFamilyIndex);
 
         VkCommandPool getCommandPool() const { return _commandPool; }
         const vector<VkCommandBuffer>& getCommandBuffers() const { return _commandBuffers; }

@@ -2,7 +2,7 @@
 
 
 expected<void, RenderPassErrors> RenderPass::Init(
-    VkSurfaceFormatKHR &surfaceFormat, VkDevice &device)
+    VkSurfaceFormatKHR &surfaceFormat, VkDevice device)
 {
     if (device == VK_NULL_HANDLE){
         return unexpected(RenderPassErrors::RenderPassDeviceError);

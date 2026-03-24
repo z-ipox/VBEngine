@@ -3,7 +3,7 @@
 using namespace std;
 
 expected<void, VBEngineError> VBEngine::Init(
-	const string &programName, int width, int height,
+	const string &programName, uint32_t width, uint32_t height,
 	PresentMode presentMode, SurfaceColorFormat surfaceColorFormat)
 {
 	auto window = glfwCreateWindow(_width, _height, _programName.c_str(), nullptr, nullptr);

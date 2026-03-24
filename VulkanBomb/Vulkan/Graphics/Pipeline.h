@@ -16,21 +16,20 @@ enum class PipeLineError{
 class Pipeline{
     private:
         VkDevice _device;
-        vector<VkPipelineShaderStageCreateInfo> _shaderStages;
+        vector<VkPipelineShaderStageCreateInfo> _shaderStageCreateInfos;
         VkRenderPass _renderPass;
         VkPipeline _pipeline;
         VkPipelineLayout _pipelineLayout;
-        VkPipelineVertexInputStateCreateInfo _vertexInputInfo;
-        VkPipelineInputAssemblyStateCreateInfo _inputAssembly;
-        VkPipelineViewportStateCreateInfo _viewportState;
-        VkPipelineRasterizationStateCreateInfo _rasterizer;
-        VkPipelineMultisampleStateCreateInfo _multisampling;
-        VkPipelineColorBlendAttachmentState _colorBlendAttachment;
-        VkPipelineColorBlendStateCreateInfo _colorBlending;
+        VkPipelineVertexInputStateCreateInfo _vertexInputStateCreateInfo;
+        VkPipelineInputAssemblyStateCreateInfo _inputAssemblyStateCreateInfo;
+        VkPipelineViewportStateCreateInfo _viewportStateCreateInfo;
+        VkPipelineRasterizationStateCreateInfo _rasterizerStateCreateInfo;
+        VkPipelineMultisampleStateCreateInfo _multisamplingStateCreateInfo;
+        VkPipelineColorBlendAttachmentState _colorBlendAttachmentState;
+        VkPipelineColorBlendStateCreateInfo _colorBlendingStateCreateInfo;
         vector<VkDynamicState> _dynamicStates;
-        VkPipelineDynamicStateCreateInfo _dynamicState;
+        VkPipelineDynamicStateCreateInfo _dynamicStateCreateInfo;
         
-
         bool createPipelineLayout();
         bool createGraphicsPipeline();
 
@@ -40,7 +39,7 @@ class Pipeline{
         ~Pipeline();
 
         expected<void, PipeLineError> Init(
-            VkDevice &device, VkRenderPass &RenderPass,
+            VkDevice device, VkRenderPass RenderPass,
             const vector<VkPipelineShaderStageCreateInfo> &shaderStages);
 
         VkPipeline getPipeline() const { return _pipeline; }

@@ -1,6 +1,6 @@
 #include "Command.h"
 
-expected<void, CommandError> Command::Init(VkDevice &device, uint32_t &maxFrameInFlight, int &graphicsQueueFamilyIndex)
+expected<void, CommandError> Command::Init(VkDevice device, uint32_t maxFrameInFlight, uint32_t graphicsQueueFamilyIndex)
 {
     if (device == VK_NULL_HANDLE)
         return unexpected(CommandError::CommandDeviceError);

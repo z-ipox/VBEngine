@@ -1,14 +1,18 @@
 #include "Device.h"
 
-expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR &surface)
+expected<void, DeviceError> Device::Init(VkInstance instance, VkSurfaceKHR surface)
 {
+    if (instance == VK_NULL_HANDLE){
+        return unexpected(DeviceError::DeviceInvalidInstance);
+    }
     if (surface == VK_NULL_HANDLE) {
         return unexpected(DeviceError::DeviceInvalidSurface);
     }
 
+    _instance = instance;
     _surface = surface;  
 
-    if (findPhysicalDevice(instance) == false){
+    if (findPhysicalDevice() == false){
         return unexpected(DeviceError::DeviceNotFound);
     }
     if (findQueueFamiliesIndex() == false){
@@ -24,8 +28,8 @@ expected<void, DeviceError> Device::Init(VkInstance& instance, VkSurfaceKHR &sur
     return {};
 }
 
-bool Device::findPhysicalDevice(VkInstance &instance){
-    vkEnumeratePhysicalDevices(instance, &_deviceCount, nullptr);
+bool Device::findPhysicalDevice(){
+    vkEnumeratePhysicalDevices(_instance, &_deviceCount, nullptr);
 
     if (_deviceCount == 0){
        return false;
@@ -33,7 +37,7 @@ bool Device::findPhysicalDevice(VkInstance &instance){
 
     vector<VkPhysicalDevice> devices(_deviceCount);
 
-    vkEnumeratePhysicalDevices(instance, &_deviceCount, devices.data());
+    vkEnumeratePhysicalDevices(_instance, &_deviceCount, devices.data());
     _physicalDevice = devices[0];
 
     vkGetPhysicalDeviceQueueFamilyProperties(_physicalDevice, &_queueFamilyCount, nullptr);

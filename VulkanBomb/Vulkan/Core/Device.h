@@ -11,6 +11,7 @@ enum class DeviceError
 {
     DeviceNotFound,
     DeviceNotFoundQueueFamilies,
+    DeviceInvalidInstance,
     DeviceInvalidSurface,
     DeviceFiledCreateLogicDevice,
 };
@@ -18,10 +19,10 @@ enum class DeviceError
 class Device {
 
     private:
-    
         VkDevice _device;
         VkPhysicalDevice _physicalDevice; 
         VkSurfaceKHR _surface;
+        VkInstance _instance;
         vector<VkQueueFamilyProperties> _queueFamilies;
         VkQueue _graphicsQueue,
                 _presentQueue;
@@ -30,12 +31,11 @@ class Device {
         int _graphicsQueueFamilyIndex,
             _presentQueueFamilyIndex;
 
-        bool findPhysicalDevice(VkInstance &instance);
+        bool findPhysicalDevice();
         bool findQueueFamiliesIndex();
         bool createLogicDevice();
 
     public:
-
         Device() : _device(VK_NULL_HANDLE)
         , _physicalDevice(VK_NULL_HANDLE)
         , _deviceCount(0)
@@ -45,7 +45,7 @@ class Device {
 
         ~Device();
 
-        expected<void, DeviceError> Init(VkInstance& instance, VkSurfaceKHR &surface);
+        expected<void, DeviceError> Init(VkInstance instance, VkSurfaceKHR surface);
 
         VkDevice getDevice() const { return _device; }
         VkPhysicalDevice getPhysicalDevice() const { return _physicalDevice; }
