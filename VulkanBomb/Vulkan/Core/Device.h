@@ -43,7 +43,7 @@ class Device {
         , _graphicsQueueFamilyIndex(-1)
         , _presentQueueFamilyIndex(-1) {}
 
-        ~Device();
+        ~Device(){};
 
         expected<void, DeviceError> Init(VkInstance instance, VkSurfaceKHR surface);
 

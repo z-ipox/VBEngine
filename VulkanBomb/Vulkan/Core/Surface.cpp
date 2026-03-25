@@ -1,22 +1,30 @@
 #include "Surface.h"
 
-expected<void, SurfaceError> Surface::Init(
-    VkInstance instance, GLFWwindow *window, 
-    PresentMode presentMode, SurfaceColorFormat format)
+expected<void, SurfaceError> Surface::Init(VkInstance instance, GLFWwindow *window)
 {
-
-    if(instance == VK_NULL_HANDLE){
+    if(instance == VK_NULL_HANDLE) {
         return unexpected(SurfaceError::SurfaceInstanceError);
     }
+
     _instance = instance;
+
     if(glfwCreateWindowSurface(_instance, window, nullptr, &_surface) != VK_SUCCESS){
         return unexpected(SurfaceError::SurfaceInitError);
     }
+    return {};
+}
+
+expected<void, SurfaceError> Surface::UpdateCapabilities(
+    VkPhysicalDevice physicalDevice, PresentMode presentMode, SurfaceColorFormat format)
+{
+    _physicalDevice = physicalDevice; 
 
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_physicalDevice, _surface, &_capabilities);
+    
     vkGetPhysicalDeviceSurfaceFormatsKHR(_physicalDevice, _surface, &_formatCount, nullptr);
     _formats.resize(_formatCount);
     vkGetPhysicalDeviceSurfaceFormatsKHR(_physicalDevice, _surface, &_formatCount, _formats.data());
+
     vkGetPhysicalDeviceSurfacePresentModesKHR(_physicalDevice, _surface, &_presentModeCount, nullptr);
     _presentModes.resize(_presentModeCount);
     vkGetPhysicalDeviceSurfacePresentModesKHR(_physicalDevice, _surface, &_presentModeCount, _presentModes.data());

@@ -1,43 +1,42 @@
-
 #include "SwapChain.h"
 
 expected<void, SwapChainError> SwapChain::Init(
-            VkDevice device, VkSurfaceKHR surface, 
+            VkDevice device, VkSurfaceKHR surface, GLFWwindow* window,
             VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
             VkSurfaceCapabilitiesKHR &capabilities,
             uint32_t graphicsQueueFamilyIndex, uint32_t presentQueueFamilyIndex)
 {
-
-    if (device == VK_NULL_HANDLE){
-        return unexpected(SwapChainError::SwapChainInvalidDevice);
-    }
-    if (surface == VK_NULL_HANDLE){
-        return unexpected(SwapChainError::SwapChainInvalidSurface);
-    }
-    if (presentMode < 0){
-        return unexpected(SwapChainError::SwapChainInvalidPresentMode);
-    }
-    if (capabilities.minImageCount == 0 ){
-        return unexpected(SwapChainError::SwapChainCapabilitiesError);
-    }
-    if (surfaceFormat.format == VK_FORMAT_UNDEFINED){
-        return unexpected(SwapChainError::SwapChainSurfaceFormatError);
-    }
+    if (device == VK_NULL_HANDLE) return unexpected(SwapChainError::SwapChainInvalidDevice);
+    if (surface == VK_NULL_HANDLE) return unexpected(SwapChainError::SwapChainInvalidSurface);
 
     _device = device;
     _surface = surface;
     _presentMode = presentMode;
     _capabilities = capabilities;
-    _extent2D = capabilities.currentExtent;
-    _imageCount = capabilities.minImageCount + 1;
     _surfaceFormat = surfaceFormat;
+    _graphicsQueueFamilyIndex = graphicsQueueFamilyIndex;
+    _presentQueueFamilyIndex = presentQueueFamilyIndex;
 
-    if (createSwapChain() == false) {
-        return unexpected(SwapChainError::SwapChainInitError);
+    if (capabilities.currentExtent.width != 0xFFFFFFFF) {
+        _extent2D = capabilities.currentExtent;
+    } else {
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+
+        _extent2D.width = std::clamp(static_cast<uint32_t>(width), 
+            capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+        _extent2D.height = std::clamp(static_cast<uint32_t>(height), 
+            capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
     }
-    if (getImagesSwapChain() == false){
-        return unexpected(SwapChainError::SwapChainCreateImageViewsError);
+
+    _imageCount = capabilities.minImageCount + 1;
+    if (capabilities.maxImageCount > 0 && _imageCount > capabilities.maxImageCount) {
+        _imageCount = capabilities.maxImageCount;
     }
+
+    if (!createSwapChain()) return unexpected(SwapChainError::SwapChainInitError);
+    if (!getImagesSwapChain()) return unexpected(SwapChainError::SwapChainCreateImageViewsError);
+
     return {};
 }
 
@@ -51,23 +50,21 @@ bool SwapChain::createSwapChain()
     swapchainCreateInfo.imageColorSpace = _surfaceFormat.colorSpace;
     swapchainCreateInfo.imageExtent = _extent2D;
     swapchainCreateInfo.imageArrayLayers = 1;
-    swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // VK_IMAGE_USAGE_TRANSFER_DST_BIT  VK_IMAGE_USAGE_SAMPLED_BIT;
-    swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+    
+    if (_graphicsQueueFamilyIndex != _presentQueueFamilyIndex) {
+        uint32_t queueFamilyIndices[] = {_graphicsQueueFamilyIndex, _presentQueueFamilyIndex};
+        swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+        swapchainCreateInfo.queueFamilyIndexCount = 2;
+        swapchainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
+    } else {
+        swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    }
+
     swapchainCreateInfo.preTransform = _capabilities.currentTransform;
     swapchainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
     swapchainCreateInfo.presentMode = _presentMode;
     swapchainCreateInfo.clipped = VK_TRUE;
-    swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
-
-    if (_graphicsQueueFamilyIndex != _presentQueueFamilyIndex) {
-        uint32_t queueFamilyIndices[] = {
-            static_cast<uint32_t>(_graphicsQueueFamilyIndex),
-            static_cast<uint32_t>(_presentQueueFamilyIndex)
-        };
-        swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-        swapchainCreateInfo.queueFamilyIndexCount = 2;
-        swapchainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
-    }
 
     if (vkCreateSwapchainKHR(_device, &swapchainCreateInfo, nullptr, &_swapchain) != VK_SUCCESS){
         return false;

@@ -1,7 +1,10 @@
 #pragma once
-#include <vulkan/vulkan.h>
+
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 #include <vector>
 #include <expected>
+#include <algorithm>
 #include <set>
 
 using namespace std;
@@ -40,10 +43,10 @@ class SwapChain{
             _swapchain(VK_NULL_HANDLE)
             , _device(VK_NULL_HANDLE){}
 
-        ~SwapChain();
+        ~SwapChain(){};
 
         expected<void, SwapChainError> Init(
-            VkDevice device, VkSurfaceKHR surface, 
+            VkDevice device, VkSurfaceKHR surface, GLFWwindow* window,
             VkSurfaceFormatKHR &surfaceFormat, VkPresentModeKHR &presentMode, 
             VkSurfaceCapabilitiesKHR &capabilities,
             uint32_t graphicsQueueFamilyIndex, uint32_t presentQueueFamilyIndex);

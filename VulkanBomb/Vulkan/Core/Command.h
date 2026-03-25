@@ -10,6 +10,7 @@ enum class CommandError{
     CommandCreatePoolError,
     CommandCreateBuffersError,
     CommandCreateSyncObjectsError,
+    CommandRecordBuffer
 };
 
 class Command {
@@ -30,14 +31,18 @@ class Command {
         Command() : 
             _device(VK_NULL_HANDLE)
             , _commandPool(VK_NULL_HANDLE){}
-        ~Command();
+        ~Command(){};
 
         expected<void, CommandError> Init(VkDevice device, uint32_t maxFrameInFlight, uint32_t graphicsQueueFamilyIndex);
+        expected<void, CommandError> recordCommandBuffer(
+            VkCommandBuffer commandBuffer, uint32_t frameIndex, 
+            VkRenderPass renderPass, vector<VkFramebuffer>& framebuffers, 
+            VkExtent2D extent, VkPipeline graphicsPipeline);
 
         VkCommandPool getCommandPool() const { return _commandPool; }
         const vector<VkCommandBuffer>& getCommandBuffers() const { return _commandBuffers; }
         const vector<VkSemaphore>& getImageAvailableSemaphores() const { return _imageAvailableSemaphores; }
         const vector<VkSemaphore>& getRenderFinishedSemaphores() const { return _renderFinishedSemaphores; }
-
+        const vector<VkFence>& getInFlightFences() const { return _inFlightFences; }
 };
 

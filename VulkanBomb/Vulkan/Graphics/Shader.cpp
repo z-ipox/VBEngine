@@ -5,6 +5,9 @@ expected<void, ShaderError> Shader::Init(VkDevice device)
     if (device == VK_NULL_HANDLE){
         return unexpected(ShaderError::ShaderInitDeviceError);
     }
+    
+    _device = device;
+
     return {};
 }
 

@@ -33,10 +33,13 @@ class Surface{
     public:
         Surface() : _surface(VK_NULL_HANDLE)
         , _physicalDevice(VK_NULL_HANDLE) {}
-        ~Surface();
+        ~Surface(){};
 
         expected<void, SurfaceError> Init(
-            VkInstance instance, GLFWwindow *window, PresentMode presentMode, SurfaceColorFormat format);
+            VkInstance instance, GLFWwindow *window);
+
+        expected<void, SurfaceError> UpdateCapabilities(
+            VkPhysicalDevice physicalDevice, PresentMode presentMode, SurfaceColorFormat format);
         
         VkSurfaceKHR getSurface() const { return _surface; }
         VkSurfaceCapabilitiesKHR getCapabilities() const { return _capabilities; }

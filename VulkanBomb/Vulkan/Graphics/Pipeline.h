@@ -20,23 +20,23 @@ class Pipeline{
         VkRenderPass _renderPass;
         VkPipeline _pipeline;
         VkPipelineLayout _pipelineLayout;
-        VkPipelineVertexInputStateCreateInfo _vertexInputStateCreateInfo;
-        VkPipelineInputAssemblyStateCreateInfo _inputAssemblyStateCreateInfo;
-        VkPipelineViewportStateCreateInfo _viewportStateCreateInfo;
-        VkPipelineRasterizationStateCreateInfo _rasterizerStateCreateInfo;
-        VkPipelineMultisampleStateCreateInfo _multisamplingStateCreateInfo;
-        VkPipelineColorBlendAttachmentState _colorBlendAttachmentState;
-        VkPipelineColorBlendStateCreateInfo _colorBlendingStateCreateInfo;
+        VkPipelineVertexInputStateCreateInfo _vertexInputStateCreateInfo{};
+        VkPipelineInputAssemblyStateCreateInfo _inputAssemblyStateCreateInfo{};
+        VkPipelineViewportStateCreateInfo _viewportStateCreateInfo{};
+        VkPipelineRasterizationStateCreateInfo _rasterizerStateCreateInfo{};
+        VkPipelineMultisampleStateCreateInfo _multisamplingStateCreateInfo{};
+        VkPipelineColorBlendAttachmentState _colorBlendAttachmentState{};
+        VkPipelineColorBlendStateCreateInfo _colorBlendingStateCreateInfo{};
+        VkPipelineDynamicStateCreateInfo _dynamicStateCreateInfo{};
         vector<VkDynamicState> _dynamicStates;
-        VkPipelineDynamicStateCreateInfo _dynamicStateCreateInfo;
-        
+
         bool createPipelineLayout();
         bool createGraphicsPipeline();
 
     public:
         Pipeline():
             _device(VK_NULL_HANDLE){}
-        ~Pipeline();
+        ~Pipeline(){};
 
         expected<void, PipeLineError> Init(
             VkDevice device, VkRenderPass RenderPass,

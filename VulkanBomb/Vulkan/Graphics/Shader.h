@@ -30,7 +30,7 @@ class Shader {
     public:
         Shader() : 
             _device(VK_NULL_HANDLE){}
-        ~Shader();
+        ~Shader(){};
 
         expected<void, ShaderError> Init(VkDevice device);
         expected<void, ShaderError> Load(const string& filePath, VkShaderStageFlagBits stage);

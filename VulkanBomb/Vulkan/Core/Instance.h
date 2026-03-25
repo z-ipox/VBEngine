@@ -19,7 +19,7 @@ private:
 public:
     Instance() : _instance(VK_NULL_HANDLE) {}
 
-    ~Instance();
+    ~Instance(){};
 
     Instance(const Instance&) = delete;
     Instance& operator=(const Instance&) = delete;

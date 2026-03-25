@@ -108,5 +108,7 @@ bool Pipeline::createGraphicsPipeline()
     {
         return false;
     }
+    
+    return true;
 }
 

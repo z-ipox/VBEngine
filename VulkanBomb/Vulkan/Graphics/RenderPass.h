@@ -24,7 +24,7 @@ class RenderPass{
         bool CreateRenderPass();
     public:
         RenderPass(){}
-        ~RenderPass();
+        ~RenderPass(){};
 
         expected<void, RenderPassErrors> Init(VkSurfaceFormatKHR &surfaceFormat, VkDevice device);
 
